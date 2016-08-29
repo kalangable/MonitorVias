@@ -2,6 +2,7 @@
 #define __GPS_h
 
 #include "Arduino.h"
+#include <TimeLib.h>
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
 
@@ -17,5 +18,6 @@ class GPS
   private:
     //Variaveis
     TinyGPSPlus gps;
+    const int offset = -3;
 };
 #endif

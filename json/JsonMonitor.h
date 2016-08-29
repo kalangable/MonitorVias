@@ -10,6 +10,6 @@
 class JsonMonitor
 {
 	public:
-		String generatedStringJson( int x, int y, int z, double longitude, double latitude, double velocidade, long time );
+		JsonObject& generatedJson( int x, int y, int z, double longitude, double latitude, double velocidade, long time );
 };
 #endif

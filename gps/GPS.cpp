@@ -3,13 +3,15 @@
 void GPS::begin(SoftwareSerial& serial){
 	serial.begin(9600);
 	while ( gps.satellites.value() < 3 ) {
-	    Serial.println("Buscando satelites");
+	    Serial.print("Buscando satelites");
 	    novasCoordenadas( serial );
 	}
+	Serial.println(" GPS :: OK");
+
 }
 
 long GPS::getTime(){
-	return 1l;
+	return now();
 }
 double GPS::getLatitude(){
 	return gps.location.lat();
@@ -26,6 +28,10 @@ void GPS::novasCoordenadas( SoftwareSerial& serial ){
   	do
   	{
     	while (serial.available())
-      		gps.encode(serial.read());
+      		if(gps.encode(serial.read())){
+      			setTime(gps.time.hour(), gps.time.minute(), gps.time.second(), gps.date.day(), gps.date.month(), gps.date.year());
+    			adjustTime(offset * SECS_PER_HOUR);
+      		}
   	} while ((millis() - start < 100 ) && (!gps.location.isValid()));
+
 }

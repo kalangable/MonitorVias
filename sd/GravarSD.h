@@ -8,7 +8,7 @@ class GravarSD
 {
 	public:
 		void begin();
-    	void gravar( String dados );
+    	void gravar( char* dados );
 
     private:
     	File arquivo;

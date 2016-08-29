@@ -10,8 +10,9 @@ void setup() {
 void loop() {
 
   gps.novasCoordenadas( ss );
-  memoria.gravar(json.generatedStringJson( acelerometro.getEixoX(), acelerometro.getEixoY(), acelerometro.getEixoZ(), gps.getLongitude(), gps.getLatitude(), gps.getVelocidade(), gps.getTime() ));
-   
-  //gravador.gravar(new Json(acelerometro.informacaoesEixos(), gps.inforamacoesCoordenadas()));
+  JsonObject& jsonObject = json.generatedJson( acelerometro.getEixoX(), acelerometro.getEixoY(), acelerometro.getEixoZ(), gps.getLongitude(), gps.getLatitude(), gps.getVelocidade(), gps.getTime() );
+  char buffer[150];
+  jsonObject.printTo(buffer, sizeof(buffer));
+  memoria.gravar( buffer );
   
 }
