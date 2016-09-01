@@ -11,8 +11,9 @@ void loop() {
 
   gps.novasCoordenadas( ss );
   JsonObject& jsonObject = json.generatedJson( acelerometro.getEixoX(), acelerometro.getEixoY(), acelerometro.getEixoZ(), gps.getLongitude(), gps.getLatitude(), gps.getVelocidade(), gps.getTime() );
-  char buffer[150];
-  jsonObject.printTo(buffer, sizeof(buffer));
+  String buffer;
+  jsonObject.printTo(buffer);
+  Serial.println(buffer);
   memoria.gravar( buffer );
   
 }

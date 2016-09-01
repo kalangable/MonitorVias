@@ -3,7 +3,7 @@
 void GPS::begin(SoftwareSerial& serial){
 	serial.begin(9600);
 	while ( gps.satellites.value() < 3 ) {
-	    Serial.print("Buscando satelites");
+	    Serial.println("Buscando satelites");
 	    novasCoordenadas( serial );
 	}
 	Serial.println(" GPS :: OK");

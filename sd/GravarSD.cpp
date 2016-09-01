@@ -4,14 +4,14 @@ void GravarSD::begin(){
 	    	Serial.println( ":: Erro na inicialização do SD" );
 	    	return;
   	}
-	arquivo = SD.open( "monitor.txt" , FILE_WRITE );
+	arquivo = SD.open( "buracos.txt" , FILE_WRITE );
 }
 
-void GravarSD::gravar( char* dados ){
+void GravarSD::gravar( String dados ){
 	if ( arquivo ) {
-	   	arquivo.println( dados );
+		arquivo.println( dados );
 	   	arquivo.flush();
 	} else {
-	    Serial.println( "Não gravar no arquivo arquivo" );
+	    Serial.println( " :: Não gravar no arquivo" );
 	}
 }
