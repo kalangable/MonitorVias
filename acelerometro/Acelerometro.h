@@ -1,13 +1,12 @@
 #ifndef __Acelerometro_h
 #define __Acelerometro_h
 
-#include "Arduino.h"
 #include <AcceleroMMA7361.h>
 class Acelerometro
 {
   
   public:
-    Acelerometro();
+    void begin();
     int getEixoX();
     int getEixoY();
     int getEixoZ();

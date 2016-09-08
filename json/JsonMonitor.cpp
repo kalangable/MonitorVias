@@ -1,17 +1,17 @@
 #include "JsonMonitor.h"
 
-JsonObject& JsonMonitor::generatedJson( int x, int y, int z, double longitude, double latitude, double velocidade, long time ){
-    StaticJsonBuffer<200> jsonBuffer;	
-	JsonObject& root = jsonBuffer.createObject();
-	root["time"] = time;
-	root["velocidade"] = velocidade;
+char *JsonMonitor::converter( double __val, signed char __width, unsigned char __prec){
+ 
+  char transformacao[30];
+  dtostrf( __val , __width , __prec , transformacao );
+  return transformacao;
 
-	JsonObject& eixoJson = root.createNestedObject("eixo");
-	eixoJson["x"] = x;
-	eixoJson["y"] = y;
-	eixoJson["z"] = z;
-	JsonObject& coordenadas = root.createNestedObject("coordenadas");
-	coordenadas["latitude"] = JsonVariant(latitude, 6);
-	coordenadas["longitude"] = JsonVariant(longitude, 6);
-    return root;
+}
+
+char *JsonMonitor::generatedJson( int x, int y, int z, float longitude, float latitude, float velocidade, long _time ){
+  char root[180];
+  //sprintf( root, "%ld ,\"velocidade\":%s ,\"eixo\":{\"x\":%d,\"y\":%d,\"z\":%d},\"coordenadas\":{\"longitude\":%s,\"latitude\":%s}}", _time , converter( velocidade, 5, 2 ), x , y , z , converter( longitude, 10, 6 ), converter( latitude, 10, 6 ));
+  sprintf( root, "%ld,%s,%d,%d,%d,%s,%s", _time , converter( velocidade, 5, 2 ), x , y , z , converter( longitude, 10, 6 ), converter( latitude, 10, 6 ));
+  return root;
+    
 }

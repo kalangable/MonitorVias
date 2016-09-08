@@ -1,7 +1,6 @@
 #ifndef __GPS_h
 #define __GPS_h
 
-#include "Arduino.h"
 #include <TimeLib.h>
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
@@ -9,15 +8,15 @@
 class GPS
 {
   public:
-    void begin( SoftwareSerial &serial );
+    void begin();
     long getTime();
     double getLatitude();
     double getLongitude();
     double getVelocidade();
-    void novasCoordenadas( SoftwareSerial& serial );  
+    void novasCoordenadas(); 
   private:
-    //Variaveis
     TinyGPSPlus gps;
     const int offset = -3;
+    SoftwareSerial *serialGPS;
 };
 #endif

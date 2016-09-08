@@ -1,10 +1,14 @@
 #include "GPS.h"
 
-void GPS::begin(SoftwareSerial& serial){
-	serial.begin(9600);
+void GPS::begin(){
+
+	Serial.println( ":: Iniciando GPS" );
+	serialGPS = new SoftwareSerial( 2 , 3 );
+	serialGPS->begin(9600);
 	while ( gps.satellites.value() < 3 ) {
-	    Serial.println("Buscando satelites");
-	    novasCoordenadas( serial );
+	    Serial.print( "Buscando satelites : ");
+	    Serial.println( gps.satellites.value() );
+	    novasCoordenadas( );
 	}
 	Serial.println(" GPS :: OK");
 
@@ -23,12 +27,13 @@ double GPS::getVelocidade(){
 	return gps.speed.kmph();
 }
 
-void GPS::novasCoordenadas( SoftwareSerial& serial ){
+void GPS::novasCoordenadas( ){
+
 	long start = millis();
   	do
   	{
-    	while (serial.available())
-      		if(gps.encode(serial.read())){
+    	while (serialGPS->available())
+      		if(gps.encode(serialGPS->read())){
       			setTime(gps.time.hour(), gps.time.minute(), gps.time.second(), gps.date.day(), gps.date.month(), gps.date.year());
     			adjustTime(offset * SECS_PER_HOUR);
       		}

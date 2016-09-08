@@ -2,15 +2,16 @@
 #define __GravarSD_h
 
 #include <SD.h>
-#include "Arduino.h"
+#include <SPI.h>
 
 class GravarSD
 {
 	public:
 		void begin();
-    	void gravar( String dados );
+    	void gravar( char *dados );
 
     private:
     	File arquivo;
+    	const int chipSelect = 4;
 };
 #endif

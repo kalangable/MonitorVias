@@ -1,17 +1,27 @@
 #include "GravarSD.h"
+
 void GravarSD::begin(){
-	if (!SD.begin( 10 )) {
-	    	Serial.println( ":: Erro na inicialização do SD" );
+
+	//Serial.println( ":: Iniciando SD" );
+	pinMode(SS, OUTPUT);
+	if (!SD.begin( chipSelect )) {
+	    	Serial.println( ":: Erro na inicializacao do SD" );
 	    	return;
-  	}
-	arquivo = SD.open( "buracos.txt" , FILE_WRITE );
+  	} 	
+  	
 }
 
-void GravarSD::gravar( String dados ){
+void GravarSD::gravar( char *dados ){
+	Serial.print( "Gravado : ");
+	Serial.println( dados );
+	arquivo = SD.open( "buracos.txt" , FILE_WRITE );
 	if ( arquivo ) {
-		arquivo.println( dados );
-	   	arquivo.flush();
+		while(*dados)
+			arquivo.write( *dados++ );
+		arquivo.write( '\n' );
+	   	arquivo.close();
 	} else {
-	    Serial.println( " :: Não gravar no arquivo" );
+	    Serial.println( " :: Nao gravar no arquivo" );
 	}
+
 }
