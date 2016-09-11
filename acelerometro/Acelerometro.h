@@ -7,12 +7,13 @@ class Acelerometro
   
   public:
     void begin();
+    void getInformacoes();
     int getEixoX();
     int getEixoY();
     int getEixoZ();
 
   private:
-    //Variaveis
     AcceleroMMA7361 accelero;
+    int _x , _y , _z;
 };
 #endif

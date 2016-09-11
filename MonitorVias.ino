@@ -11,8 +11,9 @@ void setup() {
 
 void loop() {
   
+  acelerometro.getInformacoes();
   gps.novasCoordenadas( );
-
-  cartao.gravar( json.generatedJson( acelerometro.getEixoX(), acelerometro.getEixoY(), acelerometro.getEixoZ(), gps.getLongitude(), gps.getLatitude(), gps.getVelocidade(), gps.getTime() ));
+  formato.setDados( acelerometro.getEixoX(), acelerometro.getEixoY(), acelerometro.getEixoZ(), gps.getLongitude(), gps.getLatitude(), gps.getVelocidade(), gps.getTime() );
+  cartao.gravar( formato.csv() );
   
 }

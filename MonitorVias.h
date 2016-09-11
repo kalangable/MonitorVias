@@ -4,12 +4,11 @@
 #include "sd/GravarSD.h"
 #include "acelerometro/Acelerometro.h"
 #include "gps/GPS.h"
-#include "json/JsonMonitor.h"
+#include "formatador/Formatador.h"
 
 Acelerometro acelerometro;
-
 GPS gps;
-JsonMonitor json;
 GravarSD cartao;
+Formatador formato;
 
 #endif

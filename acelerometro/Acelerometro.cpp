@@ -9,12 +9,18 @@ void Acelerometro::begin(){
 	accelero.calibrate();
 }
 
+void Acelerometro::getInformacoes(){
+	_x = accelero.getXRaw();
+	_y = accelero.getYRaw();
+	_z = accelero.getZRaw();
+}
+
 int Acelerometro::getEixoX(){
-	return accelero.getXRaw();
+	return _x;
 }
 int Acelerometro::getEixoY(){
-	return accelero.getXRaw();
+	return _y;
 }
 int Acelerometro::getEixoZ(){
-	return accelero.getXRaw();
+	return _z;
 }

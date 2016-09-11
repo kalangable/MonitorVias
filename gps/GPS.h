@@ -18,5 +18,8 @@ class GPS
     TinyGPSPlus gps;
     const int offset = -3;
     SoftwareSerial *serialGPS;
+    long ultimaLeitura;
+    void setarTempo();
+    bool buscarGPS();
 };
 #endif
