@@ -5,6 +5,8 @@
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
 
+#include <stdio.h>
+
 class GPS
 {
   public:

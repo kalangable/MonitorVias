@@ -13,5 +13,6 @@ class GravarSD
     private:
     	File arquivo;
     	const int chipSelect = 4;
+    	char _nomeArquivo[12];
 };
 #endif

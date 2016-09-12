@@ -6,7 +6,7 @@ void setup() {
   while (!Serial);
   acelerometro.begin();
   gps.begin();
-  cartao.begin();
+  cartao.begin( );
 }
 
 void loop() {

@@ -5,8 +5,6 @@ void GPS::begin(){
 	serialGPS = new SoftwareSerial( 2 , 3 );
 	serialGPS->begin( 9600 );
 	while ( gps.satellites.value() < 4 ) {
-	    Serial.print( "Buscando satelites : ");
-	    Serial.println( gps.satellites.value() );
 	    novasCoordenadas( );
 	}
 	Serial.println(" GPS :: OK");
@@ -49,5 +47,4 @@ void GPS::setarTempo( ){
 	setTime(gps.time.hour(), gps.time.minute(), gps.time.second(), gps.date.day(), gps.date.month(), gps.date.year());
 	adjustTime(offset * SECS_PER_HOUR);
 	ultimaLeitura = now();
-	Serial.println( ultimaLeitura );
 }
