@@ -11,4 +11,12 @@ GPS gps;
 GravarSD cartao;
 Formatador formato;
 
+double velocidadeMinima = 7.0;
+
+double lon,lat;
+
+bool isGravar( double latitude, double longitude,   double velocidade);
+
+bool setResposta( double latitude, double longitude , bool resposta );
+
 #endif
