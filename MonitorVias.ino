@@ -5,13 +5,73 @@ void setup() {
   Serial.begin( 9600 );
   while (!Serial);
   acelerometro.begin();
-  gps.begin();
-  cartao.begin( );
+  pinMode(13, OUTPUT);
+  //gps.begin();
+  //cartao.begin( );
   // Cada interrupção deve registrar uma linha em branco
-  cartao.gravar( ",,,,,,," );
+  //cartao.gravar( ",,,,,,," );
+  //contador = 1000;
 }
 
 void loop() {
+
+  /*
+  contador = 1000;
+  Serial.print( "inicio GPS: ");
+  tempoI = millis();
+  while(contador>0){
+    loop_gps();
+    contador--;
+  }
+  tempoT = millis() - tempoI;
+  Serial.println( tempoT );
+  tempoT = 0;
+  
+  Serial.print( "inicio acelerometro: ");
+  */
+  tempoI = millis();
+  //cartao.gravar( ",,,,,,," );
+  contador = 2718;
+   while(contador>0){
+    loop_acelerometro();
+    modultimoZ = abs(acelerometro.getEixoZ() - ultimoZ);
+    if(  modultimoZ > 40   ){
+      digitalWrite(13, HIGH);
+      Serial.print( " -->");
+      Serial.print( modultimoZ );
+      Serial.print( " - ");
+      Serial.println(acelerometro.getEixoZ());
+    }else{
+      digitalWrite(13, LOW);
+    }
+    ultimoZ = acelerometro.getEixoZ();
+    contador--;
+  }
+  
+ // cartao.gravar( ",,,,,,," );
+  tempoT = millis() - tempoI;
+  Serial.print( " -->" );
+  Serial.println( tempoT );
+  tempoT = 0;
+  
+}
+
+void loop_gps() {
+  
+    gps.novasCoordenadas();
+    formato.setDados( 1, 1, 1, gps.getLongitude(), gps.getLatitude(), gps.getVelocidade(), millis() );
+    //cartao.gravar( formato.csv() );
+}
+
+
+void loop_acelerometro() {
+  
+  acelerometro.getInformacoes();
+  formato.setDados( acelerometro.getEixoX(), acelerometro.getEixoY(), acelerometro.getEixoZ(), 1.0, 1.0, 1.0, millis());
+  //cartao.gravar( formato.csv() );
+}
+
+void besta() {
   
   acelerometro.getInformacoes();
   if( generatedInfoZ( acelerometro.getEixoZ() )){
