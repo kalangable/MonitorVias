@@ -6,7 +6,6 @@ void GravarSD::begin(){
 	    	Serial.println( ":: Erro na inicializacao do SD" );
   	} 	
 }
-
 void GravarSD::gravar( char *dados ){
 	arquivo = SD.open( "buraco.txt" , FILE_WRITE );
 	if ( arquivo ) {
