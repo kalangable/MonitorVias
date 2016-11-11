@@ -10,19 +10,36 @@ void setup() {
   //cartao.begin( );
   // Cada interrupção deve registrar uma linha em branco
   //cartao.gravar( "" );
+  acelerometro.getInformacoes();
+  ultimoZ = acelerometro.getEixoZ();
+  int soma = 0;
   for( int contador=0; contador < elementosMedicao; contador++){
     acelerometro.getInformacoes();
-    lista[contador] = acelerometro.getEixoZ();
+    lista[contador] = abs(acelerometro.getEixoZ() - ultimoZ);
+    soma+=lista[contador];
+    ultimoZ = acelerometro.getEixoZ();
   }
+  media = soma/elementosMedicao;
+
+  double somaDesvioPadrao = 0.0;
+  for( int contador=0; contador < elementosMedicao; contador++){
+    somaDesvioPadrao+= pow( float(media-lista[contador]), float(2));
+  }
+  double variancia = somaDesvioPadrao/(elementosMedicao - 1);
+  
+  double desvioPadrao = sqrt( variancia );
 }
 
 void loop() {
   acelerometro.getInformacoes();
-  short diferencaZ = abs( acelerometro.getEixoZ() - ultimoZ);
+  short leituraAtual = acelerometro.getEixoZ();
+  short diferencaZ = abs(leituraAtual - ultimoZ);
+  ultimoZ = leituraAtual;
   if( isBump( diferencaZ ) == true ){
     digitalWrite(5, HIGH);
     gps.novasCoordenadas();
-    formato.setDados( "red" ,acelerometro.getEixoZ(), gps.getLongitude(), gps.getLatitude(), gps.getVelocidade(), gps.getTime() );
+    formato.setDados( "red" ,leituraAtual, gps.getLongitude(), gps.getLatitude(), gps.getVelocidade(), gps.getTime() );
+    //delay(5000);
 /*    Serial.print( ":: Gravar ");
   Serial.print( acelerometro.getEixoZ());
   Serial.print( "-");
@@ -32,31 +49,89 @@ void loop() {
   Serial.print( "-");
   Serial.println( gps.getTime() );*/
     //cartao.gravar( formato.csv() );
+  }else{
+    digitalWrite(5, LOW);
   }
-  digitalWrite(5, LOW);
-  ultimoZ = acelerometro.getEixoZ();
+  
+
 }
 
+
 bool isBump( int diferencaZ ){
-  
-  int soma = diferencaZ;
- // double somaDesvioPadrao = pow( float( media - lista[0] ), float(2));
-  double somaDesvioPadrao = 0.0;
-  
-  for( int contador=1; contador < elementosMedicao; contador++){
-    lista[contador-1] = lista[contador];
-    soma+= lista[contador];
-    somaDesvioPadrao+= pow( float(media-lista[contador]), float(2));
-  }
-  double desvioPadrao = sqrt( somaDesvioPadrao/elementosMedicao );
-  media = soma/elementosMedicao;
 
   
+  double somaDesvioPadrao = 0.0;
+  for( int contador=0; contador < elementosMedicao; contador++){
+    somaDesvioPadrao+= pow( float(lista[contador]-media), float(2));
+    
+    
+  }
+  
+  double variancia = somaDesvioPadrao/(elementosMedicao - 1);
+  
+  
+  double desvioPadrao = sqrt( variancia );
+  if( desvioPadrao < 20.00 ){
+    desvioPadrao = 20.0;
+  }
+  
+  bool retorno = !( ( ( lista[elementosMedicao-1] - desvioPadrao ) < diferencaZ ) && ( ( lista[elementosMedicao-1] + desvioPadrao ) > diferencaZ) );
+
+  int soma = diferencaZ;
+  for( int contador=1; contador < elementosMedicao; contador++){
+    lista[contador-1] = lista[contador];
+    soma+=lista[contador];
+  }
+  lista[elementosMedicao-1] = diferencaZ;
+  if( retorno ){
+    Serial.print( ":: Valores ");
+    Serial.print( media );
+    Serial.print( " - ");
+    Serial.print( desvioPadrao );
+    
+    Serial.print( " - [ ");
+    Serial.print( lista[elementosMedicao-2] - desvioPadrao );
+    Serial.print( " < ");
+    Serial.print( diferencaZ );
+    Serial.print( " > ");
+    Serial.print( lista[elementosMedicao-2] + desvioPadrao );
+    Serial.println( "]");
+  }
+  media = soma/elementosMedicao;
+  return retorno ;
+  
+}
+
+
+
+bool isBump2( int diferencaZ ){
+  
+  int soma = diferencaZ;
+  double somaDesvioPadrao = pow( float( media - lista[0] ), float(2));
+  
+  for( int contador=1; contador < elementosMedicao; contador++){
+    //Deslocar 1 elemento para traz
+    lista[contador-1] = lista[contador];
+    // Calcular os valores de variancia
+    somaDesvioPadrao += pow( float( lista[contador] - media ), float(2));
+    //Preparar a soma dos elementos para calcular a proxima media
+    soma+= lista[contador];
+  }
+
   lista[elementosMedicao-1] = diferencaZ;
   
+  double variancia = somaDesvioPadrao/(elementosMedicao - 1);
+  double desvioPadrao = sqrt( variancia );
+
+  
+  
+  
+ 
   
   Serial.print( ":: Valores ");
   Serial.print( media );
+  Serial.print( " - ");
+  Serial.print( variancia );
   Serial.print( " - ");
   Serial.print( somaDesvioPadrao );
   Serial.print( " - [ ");
@@ -66,6 +141,7 @@ bool isBump( int diferencaZ ){
   Serial.print( " - ");
   Serial.print( lista[elementosMedicao-2] + desvioPadrao );
   Serial.println( "]");
+  media = soma/elementosMedicao;
   return ( ( ( lista[elementosMedicao-2] - desvioPadrao ) < diferencaZ ) && ( ( lista[elementosMedicao-2] + desvioPadrao ) > diferencaZ) ) ;
 }
 

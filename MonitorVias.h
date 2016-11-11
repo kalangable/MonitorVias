@@ -11,7 +11,7 @@ GPS gps;
 GravarSD cartao;
 Formatador formato;
 
-#define elementosMedicao 20
+#define elementosMedicao 30
 
 #define leituraMetros 3
 
