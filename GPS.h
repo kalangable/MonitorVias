@@ -17,10 +17,10 @@ class GPS
     double getVelocidade();
     void novasCoordenadas(); 
   private:
-    TinyGPSPlus gps;
-    const int offset = -3;
-    SoftwareSerial *serialGPS;
-    long ultimaLeitura;
+    TinyGPSPlus _gps;
+    const int _gmt = -3;
+    SoftwareSerial *_serialGPS;
+    long _ultimaLeitura;
     void setarTempo();
     bool buscarGPS();
 };

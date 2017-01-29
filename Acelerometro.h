@@ -13,7 +13,7 @@ class Acelerometro
     int getEixoZ();
 
   private:
-    AcceleroMMA7361 accelero;
+    AcceleroMMA7361 _accelero;
     int _x , _y , _z;
 };
 #endif
