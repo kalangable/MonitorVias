@@ -14,11 +14,16 @@ Formatador formato;
 #define pinGravacaoCartaoMemoria 4
 #define velocidadeMinima 7.0
 
+#define elementosMedicao 20
 
 double longitudeAnterior,latitudeAnterior;
 
 bool isGravar( double latitude, double longitude,   double velocidade);
 
 bool setResposta( double latitude, double longitude , bool resposta );
+
+short ultimoZ, media;
+
+short lista[elementosMedicao];
 
 #endif
