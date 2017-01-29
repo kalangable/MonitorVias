@@ -16,11 +16,11 @@ Formatador formato;
 
 #define elementosMedicao 20
 
-double longitudeAnterior,latitudeAnterior;
+double longitudeAnterior, latitudeAnterior;
 
-bool isGravar( double latitude, double longitude,   double velocidade);
+bool isGravar(double latitude, double longitude, double velocidade);
 
-bool setResposta( double latitude, double longitude , bool resposta );
+bool setResposta(double latitude, double longitude, bool resposta);
 
 short ultimoZ, media;
 

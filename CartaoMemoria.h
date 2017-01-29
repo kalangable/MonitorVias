@@ -6,11 +6,11 @@
 
 class CartaoMemoria
 {
-	public:
-		  void begin( const int pin );
-    	void gravar( char *dados );
-
+    public:
+    void begin( const int pin );
+    void gravar( char *dados );
+    
     private:
-    	File _arquivo;
+    File _arquivo;
 };
 #endif
