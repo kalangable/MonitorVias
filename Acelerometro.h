@@ -6,14 +6,14 @@ class Acelerometro
 {
     
     public:
-    void begin();
-    void getInformacoes();
-    int getEixoX();
-    int getEixoY();
-    int getEixoZ();
+      void begin();
+      void getInformacoes();
+      int getEixoX();
+      int getEixoY();
+      int getEixoZ();
     
     private:
-    AcceleroMMA7361 _accelero;
-    int _x , _y , _z;
+      AcceleroMMA7361 _accelero;
+      int _x , _y , _z;
 };
 #endif
